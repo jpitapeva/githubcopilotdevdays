@@ -13,6 +13,9 @@ builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
 builder.Logging.SetMinimumLevel(minimumLogLevel);
 
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
 var frontendUrl = Environment.GetEnvironmentVariable("FRONTEND_URL") ?? "http://localhost:5173";
 var dbPath = Environment.GetEnvironmentVariable("DB_PATH") ?? "todo.db";
 var adminUsername = Environment.GetEnvironmentVariable("ADMIN_USERNAME") ?? "admin";
@@ -39,6 +42,9 @@ using (var scope = app.Services.CreateScope())
 	var db = scope.ServiceProvider.GetRequiredService<TodoDbContext>();
 	db.Database.EnsureCreated();
 }
+
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseCors("frontend");
 
